@@ -8,6 +8,10 @@ def main():
     user = 'michaelnoteric'
     key = 'c551e97f9bd049453b719999e7bd3717'
     friends = get_friends(url, user, key)
+    names = ['michaelnoteric'] + friends
+
+    print names
+
 
 def get_friends(url, user, key):
     """Get list of friends"""
