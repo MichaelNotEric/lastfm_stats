@@ -1,5 +1,6 @@
 import requests
 import sys
+import json
 
 def main():
     """Main entry point for the script"""
@@ -10,10 +11,14 @@ def main():
 
 def get_friends(url, user, key):
     """Get list of friends"""
-    r = requests.get(url + '?method=user.getfriends&user=' + user + '&api_key=' + key)
-    #r = requests.get('http://ws.audioscrobbler.com/2.0/?method=user.getfriends&user=michaelnoteric&api_key=c551e97f9bd049453b719999e7bd3717')
-    print r.text
+    friend_names = []
 
+    friends = requests.get(url + '?method=user.getfriends&user=' + user + '&api_key=' + key + '&format=json').json()
+    friends = friends['friends']['user']
+    for f in friends:
+        friend_names.append(f['name'].encode('Latin-1'))
+
+    return friend_names
 
 def get_top_artits():
     """Get top artists and artist count"""
