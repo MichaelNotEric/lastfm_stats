@@ -1,6 +1,7 @@
 import requests
 import sys
 import json
+import csv
 
 
 def main():
@@ -28,7 +29,26 @@ def main():
             'tracks_listened': tracks_listened,
             'total_scrobbles': total_scrobbles}
 
-    print friend_stats
+    csvdata = [['name', 'scrobbles']]
+
+    for friend, stats in friend_stats.iteritems():
+        print stats['name'] + ':'
+        print 'Total scrobbles: ' + stats['total_scrobbles']
+        print 'Top Artist: ' + stats['top_artist']
+        print 'Artists listened to: ' + stats['artists_listened']
+        print 'Top Album: ' + stats['top_album']
+        print 'Albums listened to: ' + stats['albums_listened']
+        print 'Top Track: ' + stats['top_track']
+        print 'Tracks listened to: ' + stats['tracks_listened']
+        print '\n'
+
+        csvdata.append([stats['name'], stats['total_scrobbles']])
+
+        with open('lastfm_stats.csv', 'w') as csvfile:
+            writer = csv.writer(csvfile)
+            writer.writerows(csvdata)
+
+        csvfile.close()
 
 
 def get_friends(url, user, key):
